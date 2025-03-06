@@ -25,17 +25,19 @@ const PropertyList = ({ filters }) => {
   });
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {filteredProperties.length === 0 ? (
-        <h1 className="text-red-600 text-center col-span-full text-2xl font-bold">
-          No hotels available
-        </h1>
-      ) : (
-        filteredProperties.map((property) => (
-          <PropertyCard key={property.id} property={property} />
-        ))
-      )}
-    </div>
+    // <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    //   {filteredProperties.length === 0 ? (
+    //     <h1 className="text-red-600 text-center col-span-full text-2xl font-bold">
+    //       No hotels available
+    //     </h1>
+    //   ) : (
+    //     filteredProperties.map((property) => (
+    //       <PropertyCard key={property.id} property={property} />
+    //     ))
+    //   )}
+    // </div>
+    <>
+    </>
   );
 };
 
