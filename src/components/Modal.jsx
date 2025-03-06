@@ -8,7 +8,7 @@ const Modal = ({ image, onClose }) => {
     >
       <div
         className="relative"
-        onClick={(e) => e.stopPropagation()} // Prevent modal from closing when the image is clicked
+        onClick={(e) => e.stopPropagation()} 
       >
         <img
           src={image}
