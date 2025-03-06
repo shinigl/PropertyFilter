@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropertyCard from "./PropertyCard";
 import { properties } from "../data/properties";
 
-const Filters = ({ onFilter }) => {
+const Filters = () => {
   const [filters, setFilters] = useState({
     location: "",
     moveInDate: "",
@@ -17,7 +17,6 @@ const Filters = ({ onFilter }) => {
     const { name, value } = e.target;
     const updatedFilters = { ...filters, [name]: value };
     setFilters(updatedFilters);
-    onFilter(updatedFilters);
   };
 
   const toggleFavorite = (property) => {
@@ -33,7 +32,26 @@ const Filters = ({ onFilter }) => {
   const uniqueLocations = ["", ...new Set(properties.map((p) => p.location.split(",")[1].trim()))];
   const uniquePropertyTypes = ["", ...new Set(properties.map((p) => p.type))];
 
-  const filteredProperties = showFavorites ? likedProperties : properties;
+  const filteredProperties = properties.filter((property) => {
+    const locationMatch = !filters.location || property.location.toLowerCase().includes(filters.location.toLowerCase());
+    
+    let priceMatch = true;
+    if (filters.priceRange === "$500-$2,500") {
+      priceMatch = property.price >= 500 && property.price <= 2500;
+    } else if (filters.priceRange === "$2,500-$5,000") {
+      priceMatch = property.price > 2500 && property.price <= 5000;
+    } else if (filters.priceRange === "$5,000+") {
+      priceMatch = property.price > 5000;
+    }
+
+    const typeMatch = !filters.propertyType || property.type === filters.propertyType;
+
+    const dateMatch = !filters.moveInDate || new Date(property.availableDate) >= new Date(filters.moveInDate);
+
+    return locationMatch && priceMatch && typeMatch && dateMatch;
+  });
+
+  const displayedProperties = showFavorites ? likedProperties : filteredProperties;
 
   return (
     <section className="text-white p-6 rounded-lg mb-6">
@@ -85,7 +103,6 @@ const Filters = ({ onFilter }) => {
 
         <button
           className="bg-yellow-400 text-black px-5 py-3 rounded-md w-full md:w-auto font-semibold hover:bg-yellow-500 cursor-pointer"
-          onClick={() => onFilter(filters)}
         >
           Search
         </button>
@@ -99,8 +116,8 @@ const Filters = ({ onFilter }) => {
       </div>
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {filteredProperties.length > 0 ? (
-          filteredProperties.map((property) => (
+        {displayedProperties.length > 0 ? (
+          displayedProperties.map((property) => (
             <PropertyCard
               key={property.id}
               property={property}
