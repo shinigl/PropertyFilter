@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Filters from '../components/FilterSection';
-import PropertyList from '../components/PropertyList';
+
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -21,7 +21,7 @@ const Home = () => {
       <Navbar />
       <div className="container mx-auto p-4">
         <Filters onFilter={handleFilter} />
-        <PropertyList filters={filters} />
+     
       </div>
       <Footer />
     </div>
